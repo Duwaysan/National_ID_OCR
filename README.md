@@ -17,12 +17,12 @@ Built with **FastAPI**, **React**, and **SQLite**.
 
 ---
 
-## 🚀 Tech Stack
+## 🛠 Tech Stack
 
 **Backend:**
 - [Python 3.x](https://www.python.org/)
 - [FastAPI](https://fastapi.tiangolo.com/) - API framework
-- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Text extraction
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Text recognition
 - [OpenCV](https://opencv.org/) - Face detection
 - [SQLAlchemy](https://www.sqlalchemy.org/) + SQLite - Database
 
@@ -63,36 +63,36 @@ npm run dev
 ---
 
 ## **6️⃣ API Documentation**
-Example:
+Base URL: http://127.0.0.1:8000
+
 ```md
-## API Documentation
+
 
 ### **POST /upload-id/**
-Uploads a national ID image, extracts information, and stores it in the database.
-
+Uploads an image of a national ID card, extracts full name, ID number, date of birth, and detects the face.
+Prevents duplicate IDs from being saved.
 **Request:**
 - Method: POST
 - Content-Type: multipart/form-data
-- Body: `file` (image file)
+- Body: `file` (image file .jpg/.png)
 
 **Response Example:**
 ```json
 {
-  "full_name": "KHALID ABDULAZIZ S ALDUWAYSAN",
   "id_number": "1234567890",
+  "full_name": "KHALID ABDULAZIZ S ALDUWAYSAN",
   "dob": "06/12/2002",
-  "face_image": "Face detected",
-  "db_id": 1
+  "face_image": "/9j/4AAQSkZJRgABAQAAAQABAAD...", ### stored as bytes
+  
 }
----
-
----
+```
 
 ## **7️⃣ Assumptions & Limitations**
 ```md
 ## Assumptions & Limitations
 - Works best with high-quality scanned ID images
+- OCR accuracy may vary depending on image quality
 - Only detects faces on the **left side** of the ID
-- Designed for IDs following a standard format
+- Currently optimized for Saudi National IDs
 - Currently uses **SQLite**; can be upgraded to PostgreSQL or MySQL
 
