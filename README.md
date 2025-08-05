@@ -96,7 +96,8 @@ Prevents duplicate IDs from being saved.
 - Currently supports **only English** text recognition from National ID cards.
 - Currently uses **SQLite**; can be upgraded to PostgreSQL or MySQL
 ```
-
+![OCR Result Example1](assets/result-1.png)
+![OCR Result Example2](assets/result-2.png)
 > **Note:**  
 > If you have already uploaded the sample ID images that are included in the repository,  
 > they are already stored in the database.  
