@@ -93,6 +93,7 @@ Prevents duplicate IDs from being saved.
 - OCR accuracy may vary depending on image quality
 - Only detects faces on the **left side** of the ID
 - Currently optimized for Saudi National IDs
+- Currently supports **only English** text recognition from National ID cards.
 - Currently uses **SQLite**; can be upgraded to PostgreSQL or MySQL
 ```
 
