@@ -60,3 +60,39 @@ npm install concurrently --save-dev
 npm run dev
 ```
 
+---
+
+## **6️⃣ API Documentation**
+Example:
+```md
+## API Documentation
+
+### **POST /upload-id/**
+Uploads a national ID image, extracts information, and stores it in the database.
+
+**Request:**
+- Method: POST
+- Content-Type: multipart/form-data
+- Body: `file` (image file)
+
+**Response Example:**
+```json
+{
+  "full_name": "KHALID ABDULAZIZ S ALDUWAYSAN",
+  "id_number": "1234567890",
+  "dob": "06/12/2002",
+  "face_image": "Face detected",
+  "db_id": 1
+}
+---
+
+---
+
+## **7️⃣ Assumptions & Limitations**
+```md
+## Assumptions & Limitations
+- Works best with high-quality scanned ID images
+- Only detects faces on the **left side** of the ID
+- Designed for IDs following a standard format
+- Currently uses **SQLite**; can be upgraded to PostgreSQL or MySQL
+
