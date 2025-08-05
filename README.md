@@ -94,4 +94,13 @@ Prevents duplicate IDs from being saved.
 - Only detects faces on the **left side** of the ID
 - Currently optimized for Saudi National IDs
 - Currently uses **SQLite**; can be upgraded to PostgreSQL or MySQL
+```
 
+> **Note:**  
+> If you have already uploaded the sample ID images that are included in the repository,  
+> they are already stored in the database.  
+> To start fresh and avoid duplicate ID errors, **delete the database file** before running:
+> ```
+> backend/data/database.db
+> ```
+> The database will be recreated automatically when you run the backend.
