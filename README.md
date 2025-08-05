@@ -82,7 +82,7 @@ Prevents duplicate IDs from being saved.
   "id_number": "1234567890",
   "full_name": "KHALID ABDULAZIZ S ALDUWAYSAN",
   "dob": "06/12/2002",
-  "face_image": "/9j/4AAQSkZJRgABAQAAAQABAAD...", ### stored as bytes
+  "face_image": "/9j/4AAQSkZJRgABAQAAAQABAAD...(stored as bytes)",
   
 }
 ```
