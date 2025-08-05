@@ -41,20 +41,22 @@ Built with **FastAPI**, **React**, and **SQLite**.
 ```bash
 git clone https://github.com/Duwaysan/National_ID_OCR.git
 cd National_ID_OCR
-
+```
 ### 2. Backend Setup
 ```bash
 cd backend
 python -m venv venv
 venv\Scripts\activate   # Windows
 pip install -r requirements.txt
+```
 ### 3. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 npm install concurrently --save-dev
-
+```
 ### 4. Run Both Backend & Frontend Together
 ```bash
 npm run dev
+```
 
