@@ -1,19 +1,19 @@
 # 🆔 National ID OCR
 
-A **full-stack web application** that extracts information from a **Saudi National ID card** using OCR (Optical Character Recognition) and Face Detection.  
-Built for the HurryPay technical challenge.
+A full-stack application that extracts personal information and detects faces from national ID images using OCR (Optical Character Recognition).  
+Built with **FastAPI**, **React**, and **SQLite**.
 
 ---
 
-## ✨ Features
-- 📤 Upload ID card image (JPG/PNG)
-- 🔍 Extract:
-  - Full Name (reformatted correctly)
+## Features
+- Upload a national ID image
+- Extract:
+  - Full Name
   - ID Number
   - Date of Birth
-  - Cropped face image
-- 💾 Store extracted data in a database
-- 🖥️ Display results on a modern React web interface
+- Detect face from the ID
+- Store extracted data in a database
+- User-friendly frontend built with React
 
 ---
 
@@ -31,28 +31,30 @@ Built for the HurryPay technical challenge.
 - [Axios](https://axios-http.com/) - API requests
 - CSS - Styling
 
+**Database:**
+- SQLite
 ---
 
-## ⚙️ Setup Instructions
+### Setup Instructions
 
-### 1️⃣ Clone the repository
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/National_ID_OCR.git
+git clone https://github.com/Duwaysan/National_ID_OCR.git
 cd National_ID_OCR
-```
-2️⃣ Install Backend Dependencies
-```
+
+### 2. Backend Setup
+```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-deactivate
-
+### 3. Frontend Setup
+```bash
 cd ../frontend
 npm install
 npm install concurrently --save-dev
-```
-3️⃣ Run the whole project
-```
+
+### 4. Run Both Backend & Frontend Together
+```bash
 npm run dev
-```
+
