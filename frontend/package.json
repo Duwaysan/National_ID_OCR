@@ -14,10 +14,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-  "start": "react-scripts start",
-  "start-backend": "cd .. && backend\\venv\\Scripts\\activate && uvicorn backend.main:app --reload",
-  "dev": "concurrently \"npm run start\" \"npm run start-backend\""
-},
+    "start": "react-scripts start",
+    "start-backend": "cd .. && backend\\venv\\Scripts\\python -m uvicorn backend.main:app --reload",
+    "dev": "concurrently \"npm run start\" \"npm run start-backend\""
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

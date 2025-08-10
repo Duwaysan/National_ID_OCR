@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
+  const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const API = "http://127.0.0.1:8000";
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setResult(null);
     setError("");
   };
+
+  const loadRecords = async () => {
+    try {
+      const { data } = await axios.get(`${API}/records`);
+      setRecords(data || []);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    loadRecords();
+  }, []);
 
   const handleUpload = async () => {
     if (!file) {
@@ -26,10 +42,11 @@ function App() {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/upload-id/", formData, {
+      const res = await axios.post(`${API}/upload-id/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setResult(res.data);
+      await loadRecords(); // refresh table after successful upload
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.detail || "Upload failed");
@@ -47,6 +64,7 @@ function App() {
 
       {/* MAIN CONTENT */}
       <main style={styles.main}>
+        {/* Upload */}
         <div style={styles.uploadSection}>
           <input type="file" onChange={handleFileChange} accept="image/*" style={styles.fileInput} />
           <button onClick={handleUpload} disabled={loading} style={styles.uploadButton}>
@@ -55,11 +73,12 @@ function App() {
           {error && <p style={styles.error}>{error}</p>}
         </div>
 
+        {/* Result (face + info) */}
         {result && (
           <div style={styles.resultContainer}>
             {/* Face Image */}
             <div style={styles.faceCard}>
-              {result.face_image ? (
+              {result.face_image && result.face_image !== "Not detected" ? (
                 <img
                   src={`data:image/jpeg;base64,${result.face_image}`}
                   alt="Detected Face"
@@ -91,6 +110,53 @@ function App() {
             </div>
           </div>
         )}
+
+        {/* Stored IDs */}
+        <section style={{ marginTop: 30 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+            <h3 style={{ margin: 0 }}>Stored IDs</h3>
+            <button onClick={loadRecords} style={styles.refreshBtn}>Refresh</button>
+          </div>
+
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ ...styles.table, width: "100%", minWidth: 700 }}>
+              <thead>
+                <tr>
+                  <th style={styles.tableHeader}>ID Number</th>
+                  <th style={styles.tableHeader}>Full Name</th>
+                  <th style={styles.tableHeader}>Date of Birth</th>
+                  <th style={styles.tableHeader}>Face</th>
+                </tr>
+              </thead>
+              <tbody>
+                {records.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" style={styles.tableCell}>No records yet.</td>
+                  </tr>
+                ) : (
+                  records.map((r) => (
+                    <tr key={r.id_number}>
+                      <td style={styles.tableCell}>{r.id_number}</td>
+                      <td style={styles.tableCell}>{r.full_name}</td>
+                      <td style={styles.tableCell}>{r.dob}</td>
+                      <td style={styles.tableCell}>
+                        {r.has_face ? (
+                          <img
+                            src={`${API}/records/${r.id_number}/face`}
+                            alt="face"
+                            style={{ width: 50, height: 50, objectFit: "cover", borderRadius: 6 }}
+                          />
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
       </main>
 
       {/* FOOTER */}
@@ -142,6 +208,15 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
   },
+  refreshBtn: {
+    backgroundColor: "#f97316",
+    color: "#fff",
+    border: "none",
+    padding: "8px 14px",
+    borderRadius: 6,
+    cursor: "pointer",
+    fontWeight: 600,
+  },
   error: {
     color: "red",
     marginTop: "10px",
@@ -172,17 +247,17 @@ const styles = {
   },
   table: {
     borderCollapse: "collapse",
-    width: "450px",
   },
   tableHeader: {
     backgroundColor: "#0f172a",
     color: "white",
-    padding: "16px",
-    border: "1px solid #ccc",
+    padding: "12px 16px",
+    border: "1px solid #e5e7eb",
+    textAlign: "left",
   },
   tableCell: {
-    padding: "8px",
-    border: "1px solid #ccc",
+    padding: "10px 12px",
+    border: "1px solid #e5e7eb",
     backgroundColor: "#f8fafc",
   },
   footer: {

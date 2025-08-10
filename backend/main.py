@@ -1,5 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
+from typing import List, Optional
 from sqlalchemy.orm import Session
 import shutil
 import os
@@ -92,3 +94,30 @@ def upload_id(file: UploadFile = File(...), db: Session = Depends(get_db)):
         "dob": dob,
         "face_image": face_base64  
     }
+
+
+# ... existing imports & code ...
+
+@app.get("/records")
+def list_records(db: Session = Depends(get_db)):
+    rows = crud.get_all_records(db)
+    # Keep list payload small (no face bytes here)
+    return [
+        {
+            "id_number": r.id_number,
+            "full_name": r.full_name,
+            "dob": r.dob,
+            "has_face": r.face_image is not None
+        }
+        for r in rows
+    ]
+
+@app.get("/records/{id_number}/face")
+def get_face(id_number: str, db: Session = Depends(get_db)):
+    r = crud.get_record_by_id_number(db, id_number)
+    if not r:
+        raise HTTPException(status_code=404, detail="Record not found")
+    if not r.face_image:
+        raise HTTPException(status_code=404, detail="No face image for this record")
+    # Return raw bytes as JPEG (works for <img src="data:..." but here we'll use blob URL)
+    return Response(content=r.face_image, media_type="image/jpeg")

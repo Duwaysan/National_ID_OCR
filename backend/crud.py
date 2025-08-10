@@ -20,4 +20,6 @@ def create_id_record(db: Session,id_number: str , full_name: str, dob: str, face
     db.refresh(record)
     return record
 
+def get_all_records(db: Session):
+    return db.query(IDRecord).all()
 
